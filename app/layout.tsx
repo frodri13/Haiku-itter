@@ -1,3 +1,4 @@
+import { SideNav } from '@/components/SideNav'
 import './globals.css'
 import { Inter } from 'next/font/google'
 
@@ -15,7 +16,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <title>Haiku-itter</title>
+        <meta 
+          name='description'
+          content='This is a twitter inspired app that only accespts Haikus for posts and comments'
+        />
+      </head>
+      <body className={inter.className}>
+        <div className='container mx-auto flex items-start'>
+          <SideNav />
+          <div className='min-h-screen flex-grow border-x'>
+            {children}
+          </div>
+        </div>
+        </body>
     </html>
   )
 }
