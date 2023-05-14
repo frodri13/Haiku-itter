@@ -1,6 +1,7 @@
 import { SideNav } from '@/components/SideNav'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import AuthProvider from '@/components/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-  
+  <AuthProvider>
     <html lang="en">
       <head>
         <title>Haiku-itter</title>
@@ -33,5 +34,6 @@ export default function RootLayout({
         </div>
         </body>
     </html>
+  </AuthProvider>
   )
 }
