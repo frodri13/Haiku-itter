@@ -40,7 +40,7 @@ model User {
   userName String @unique
   password String
   comments Comment[]
-  posts    Post[]
+  // posts    Post[]
   accounts Account[]
 }
 
@@ -49,15 +49,15 @@ model Post {
  createdAt  DateTime @default(now())
  updatedAt  DateTime @updatedAt
 
- ownerId    String
- owner      User @relation(fields: [ownerId], references: [id])
+//  ownerId    String
+//  owner      User @relation(fields: [ownerId], references: [id])
 
  body       String
- deleted    Boolean @default(false)
- comments   Comment[]
+//  deleted    Boolean @default(false)
+//  comments   Comment[]
 
- @@unique([ownerId])
- @@index([ownerId, id])
+//  @@unique([ownerId])
+//  @@index([ownerId, id])
 }
 
 model Comment{
@@ -65,8 +65,8 @@ model Comment{
  createdAt  DateTime @default(now())
  updatedAt  DateTime @updatedAt
 
- postId     String
- post       Post @relation(fields: [postId], references: [id])
+//  postId     String
+//  post       Post @relation(fields: [postId], references: [id])
 
  ownerId    String
  owner      User @relation(fields: [ownerId], references: [id])
