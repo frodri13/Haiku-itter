@@ -1,6 +1,4 @@
 import NewHaikuForm from '@/components/NewHaikuForm'
-import Posts from '@/components/NewHaikuForm'
-import { getAllHaikus } from "@/lib/api"
 import { prisma } from '@/lib/prisma'
 
 const getHaikus = async () => {
