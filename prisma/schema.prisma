@@ -33,15 +33,16 @@ model Account {
 
 model User {
   id        String @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  name      String?
+  bio       String? @db.Text
+  age       Int?
   email String @unique
-  userName String @unique
-  password String
+  emailVerified DateTime?
+  image     String?
   comments Comment[]
   posts    Post[]
   accounts Account[]
+  sessions Session[]
 }
 
 model Post {
@@ -76,7 +77,13 @@ model Comment{
 
  @@index([ownerId, id])
 }
-
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 model VerificationToken {
   identifier String
   token      String   @unique

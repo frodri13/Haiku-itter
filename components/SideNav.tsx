@@ -1,6 +1,8 @@
 'use client'
 import Link from "next/link";
 import {useSession} from 'next-auth/react'
+import { SignInButton, SignOutButton } from "./Buttons";
+import AuthCheck from "./AuthCheck";
 
 
 export function SideNav() {
@@ -14,11 +16,19 @@ export function SideNav() {
                 <li>
                     <Link href={`/`}>Home</Link>
                 </li>
-                {user != null && (
+                {/* {user != null && (
                     <li>
                        <Link href={`/profiles/${user}`}>Profile</Link>
                    </li>
-                )}
+                )} */}
+                   <li>
+                    <SignInButton />
+                </li>
+                <li>
+                    <AuthCheck>
+                        <SignOutButton />
+                    </AuthCheck>
+                </li>
             </ul>
         </nav>
     )
