@@ -1,26 +1,46 @@
 'use client'
-import { prisma } from "@/lib/prisma";
-import Comments from "./Comments";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useLayoutEffect, useState, useRef, useCallback } from "react";
 import { createNewHaiku } from "@/lib/api";
 import { SimpleButton } from "./Buttons";
+import { ProfileImage } from "./ProfileImageProps";
+import { useSession } from "next-auth/react";
+
+function updateTextAreaSize(textarea?: HTMLTextAreaElement) {
+  if(textarea == null) return
+  textarea.style.height = "0"
+  textarea.style.height = `${textarea.scrollHeight}px`
+}
 
 export default  function NewHaikuForm() {
-  const [content, setContent] = useState('');
+  const {data: session, status } = useSession();
+  const [inputValue, setInputValue] = useState("");
+  const textAreaRef = useRef<HTMLTextAreaElement>();
+  const inputRef = useCallback((textArea: HTMLTextAreaElement) => {
+    updateTextAreaSize(textArea);
+    textAreaRef.current = textArea;
+  }, [])
+
+  useLayoutEffect(() => {
+    updateTextAreaSize(textAreaRef.current);
+  }, [inputValue]);
+
+  if(status !== 'authenticated') return;
 
   const handleSubmit = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
-    await createNewHaiku(content)
-    console.log(content)
+    await createNewHaiku(inputValue)
   }
   return(
   <form onSubmit={handleSubmit} className="flex flex-col gap-2 border-b px-4 py-2">
     <div className="flex gap-4">
-      {/* profile image */}
+      <ProfileImage src={session?.user?.image} />
       <label>
         <textarea
+        ref={inputRef}
+        style={{height: 0}}
+        value={inputValue}
         placeholder="What are you thinking?"
-        value={content} onChange={(e) => setContent(e.target.value)}
+        onChange={(e) => setInputValue(e.target.value)}
         className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none" />
       </label>
     </div>

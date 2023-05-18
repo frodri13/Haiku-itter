@@ -57,7 +57,6 @@ model Post {
  deleted    Boolean @default(false)
  comments   Comment[]
 
- @@unique([ownerId])
  @@index([ownerId, id])
 }
 

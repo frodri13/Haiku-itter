@@ -7,7 +7,6 @@ import type { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
 export function SignInButton() {
   const { data: session, status } = useSession();
-  console.log(session, status);
 
   if (status === 'loading') {
     return <>...</>;
