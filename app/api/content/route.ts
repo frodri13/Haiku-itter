@@ -20,12 +20,19 @@ export async function POST(req : Request) {
 
    const userImage = session?.user?.image;
   
-   const post = await prisma.post.create({
+   await prisma.post.create({
     data: {
          body: JSON.stringify(content),
          owner: {connect: {id: user?.id}},
          userImage: userImage,
       }
+   })
+
+   await prisma.comment.create({
+    data: {
+        body: JSON.stringify(content),
+        owner: {connect: {id: user?.id}}
+    }
    })
     return NextResponse.json(content);
 }

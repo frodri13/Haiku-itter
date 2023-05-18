@@ -72,6 +72,8 @@ model Comment{
  ownerId    String
  owner      User @relation(fields: [ownerId], references: [id])
 
+ userImage  String?
+ 
  body       String
  deleted    Boolean @default(false) 
 
