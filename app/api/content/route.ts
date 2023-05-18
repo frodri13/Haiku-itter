@@ -17,11 +17,14 @@ export async function POST(req : Request) {
    const currentUserEmail = session?.user?.email!;
    const user = await prisma.user
     .findUnique({where: {email: currentUserEmail}, select: { id: true } })
+
+   const userImage = session?.user?.image;
   
    const post = await prisma.post.create({
     data: {
          body: JSON.stringify(content),
-         owner: {connect: {id: user?.id}}
+         owner: {connect: {id: user?.id}},
+         userImage: userImage,
       }
    })
     return NextResponse.json(content);

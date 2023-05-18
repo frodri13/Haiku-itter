@@ -51,6 +51,7 @@ model Post {
  updatedAt  DateTime @updatedAt
 
  ownerId    String
+ userImage  String?
  owner      User @relation(fields: [ownerId], references: [id])
 
  body       String
