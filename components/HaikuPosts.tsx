@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma'
 import { ProfileImage } from './ProfileImageProps';
 import { useState } from 'react';
+import NewHaikuForm from './NewHaikuForm';
 
 
 export default async function HaikuPosts() {
@@ -17,11 +18,9 @@ export default async function HaikuPosts() {
             <div key={post.id} className='flex gap-2'>
                 <ProfileImage src={src}/>
                 <p className='whitespace-pre-wrap'> {content}</p>
-                <textarea 
-                style={{height: 0}}
-                placeholder='Haiku it?'
-                className='flex-grow resize-none
-                overflow-hidden p-4 text-sm outline-none' />
+                <NewHaikuForm 
+                    buttonText='Haiku it?'
+                    placeHolder='Anything to add?' />
             </div>
             )
           })}

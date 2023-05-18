@@ -4,14 +4,14 @@ import { createNewHaiku } from "@/lib/api";
 import { SimpleButton } from "./Buttons";
 import { ProfileImage } from "./ProfileImageProps";
 import { useSession } from "next-auth/react";
+import { updateTextAreaSize } from "@/lib/functionHelpers";
 
-function updateTextAreaSize(textarea?: HTMLTextAreaElement) {
-  if(textarea == null) return
-  textarea.style.height = "0"
-  textarea.style.height = `${textarea.scrollHeight}px`
+type NewHaikuFormProps = {
+  buttonText: string,
+  placeHolder: string,
 }
 
-export default  function NewHaikuForm() {
+export default  function NewHaikuForm({buttonText, placeHolder}: NewHaikuFormProps) {
   const {data: session, status } = useSession();
   const [inputValue, setInputValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>();
@@ -39,11 +39,11 @@ export default  function NewHaikuForm() {
         ref={inputRef}
         style={{height: 0}}
         value={inputValue}
-        placeholder="What are you thinking?"
+        placeholder={placeHolder}
         onChange={(e) => setInputValue(e.target.value)}
         className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none" />
       </label>
     </div>
-  <SimpleButton className="self-end">Haiku That Post!</SimpleButton>
+  <SimpleButton className="self-end">{buttonText}</SimpleButton>
   </form>)
 }
