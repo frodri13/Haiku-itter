@@ -4,23 +4,20 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { ProfileImage } from './ProfileImageProps';
 
 export function SignInButton() {
   const { data: session, status } = useSession();
+  const src = session?.user?.image; 
 
   if (status === 'loading') {
     return <>...</>;
   }
-
+  
   if (status === 'authenticated') {
     return (
       <Link href={`/dashboard`}>
-        <Image
-          src={session.user?.image ?? '/mememan.webp'}
-          width={32}
-          height={32}
-          alt="Your Name"
-        />
+        <ProfileImage src={src} />
       </Link>
     );
   }
