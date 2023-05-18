@@ -12,7 +12,7 @@ export async function GET() {
 }
 
 export async function POST(req : Request) {
-   const content = await req.json();
+   const {content, postID} = await req.json();
    const session = await getServerSession(authOptions);
    const currentUserEmail = session?.user?.email!;
    const user = await prisma.user
@@ -26,13 +26,6 @@ export async function POST(req : Request) {
          owner: {connect: {id: user?.id}},
          userImage: userImage,
       }
-   })
-
-   await prisma.comment.create({
-    data: {
-        body: JSON.stringify(content),
-        owner: {connect: {id: user?.id}}
-    }
    })
     return NextResponse.json(content);
 }

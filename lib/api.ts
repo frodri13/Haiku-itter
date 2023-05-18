@@ -25,11 +25,11 @@ export const fetcher = async ({ url, method, body, json = true }: any) => {
     }
   };
   
-  export const createNewHaiku = async (content: string) => {
+  export const createNewHaiku = async (content: string, address: string, postID?: string) => {
     return fetcher({
-      url: "/api/content",
+      url: `/api/${address}`,
       method: "POST",
-      body: { content },
+      body: { content, postID },
       json: true,
     });
   };

@@ -9,7 +9,8 @@ export default function Home() {
     </header>
     <NewHaikuForm 
       buttonText='Haiku That Post!'
-      placeHolder='What are you thinking?' />
+      placeHolder='What are you thinking?'
+      address='content' />
 
     <HaikuPosts />
   </main>

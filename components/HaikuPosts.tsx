@@ -13,6 +13,8 @@ export default async function HaikuPosts() {
             {posts.map((post: any ) => {
             const content = JSON.parse(post.body).content;
             const src = post.userImage;
+            const postID = post.id;
+
 
             return(
             <div key={post.id} className='flex gap-2'>
@@ -20,7 +22,9 @@ export default async function HaikuPosts() {
                 <p className='whitespace-pre-wrap'> {content}</p>
                 <NewHaikuForm 
                     buttonText='Haiku it?'
-                    placeHolder='Anything to add?' />
+                    placeHolder='Anything to add?'
+                    address='comments'
+                    postID={postID} />
             </div>
             )
           })}

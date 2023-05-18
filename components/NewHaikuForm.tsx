@@ -9,9 +9,11 @@ import { updateTextAreaSize } from "@/lib/functionHelpers";
 type NewHaikuFormProps = {
   buttonText: string,
   placeHolder: string,
+  address: string,
+  postID?: string,
 }
 
-export default  function NewHaikuForm({buttonText, placeHolder}: NewHaikuFormProps) {
+export default  function NewHaikuForm({buttonText, placeHolder, address, postID}: NewHaikuFormProps) {
   const {data: session, status } = useSession();
   const [inputValue, setInputValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>();
@@ -28,7 +30,7 @@ export default  function NewHaikuForm({buttonText, placeHolder}: NewHaikuFormPro
 
   const handleSubmit = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
-    await createNewHaiku(inputValue)
+    await createNewHaiku(inputValue, address, postID)
   }
   return(
   <form onSubmit={handleSubmit} className="flex flex-col gap-2 border-b px-4 py-2">
