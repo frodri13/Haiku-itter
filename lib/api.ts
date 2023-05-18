@@ -34,10 +34,3 @@ export const fetcher = async ({ url, method, body, json = true }: any) => {
     });
   };
   
-  export const getAllHaikus = async () => {
-    const posts = await fetcher({
-        url: "api/content",
-        method: "GET"
-    })
-    return posts
-  }
