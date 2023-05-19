@@ -20,7 +20,8 @@ export default async function HaikuPosts() {
             const postID = post.id;
 
             return(
-            <div key={post.id} className='flex gap-2'>
+            <div key={post.id}>
+                <div className='flex px-10'>
                 <ProfileImage src={src}/>
                 <p className='whitespace-pre-wrap'> {content}</p>
                 {
@@ -28,18 +29,24 @@ export default async function HaikuPosts() {
                     const commentContent = JSON.parse(comment.body);
                     const srcC = comment.userImage;
 
-                    return(<div key={comment.id}>
+                    // flex flex-row items-center p-6 gap-4 border-b-[1px] border-neutral-800
+
+                    return(<div key={comment.id} className='flex flex-row items-center px-20 py-5 space-x-10'>
                         <ProfileImage src={srcC}/>
                         
                         <p className='whitespace-pre-wrap'>{commentContent}</p>
                     </div>)
                    }) 
                     }
-                <NewHaikuForm 
+                </div>
+                 <div className='px-40'>
+                    <NewHaikuForm 
                     buttonText='Haiku it?'
                     placeHolder='Anything to add?'
                     address='comments'
                     postID={postID} />
+                 </div>
+             
             </div>
             )
           })}
