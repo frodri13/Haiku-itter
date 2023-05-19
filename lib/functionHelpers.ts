@@ -4,3 +4,4 @@ export function updateTextAreaSize(textarea?: HTMLTextAreaElement) {
     textarea.style.height = `${textarea.scrollHeight}px`
   }
   
+ 
