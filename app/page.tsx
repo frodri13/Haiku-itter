@@ -1,7 +1,7 @@
 import HaikuPosts from '@/components/HaikuPosts'
 import NewHaikuForm from '@/components/NewHaikuForm'
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
     <header className='sticky top-0 z-10 border-b bg-white pt-2'>
@@ -13,6 +13,7 @@ export default function Home() {
       address='content' />
 
     <HaikuPosts />
+  
   </main>
   )
 }

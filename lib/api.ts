@@ -1,3 +1,5 @@
+import { revalidateTag } from "next/cache";
+
 export const fetcher = async ({ url, method, body, json = true }: any) => {
     let requestBody;
     if (typeof body === "function") {
@@ -32,6 +34,7 @@ export const fetcher = async ({ url, method, body, json = true }: any) => {
       body: { content, postID },
       json: true,
     });
+    revalidateTag('posts')
   };
 
   export const getAllHaikus = async(address: string) => {
