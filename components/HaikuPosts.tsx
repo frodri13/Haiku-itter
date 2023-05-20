@@ -1,4 +1,3 @@
-
 import { prisma } from '@/lib/prisma'
 import { ProfileImage } from './ProfileImageProps';
 import { useState } from 'react';

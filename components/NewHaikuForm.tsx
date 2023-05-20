@@ -1,6 +1,6 @@
 'use client'
 import { FormEvent, useLayoutEffect, useState, useRef, useCallback } from "react";
-import { createNewHaiku } from "@/lib/api";
+import { createNewHaiku, createNewHaiku2 } from "@/lib/api";
 import { SimpleButton } from "./Buttons";
 import { ProfileImage } from "./ProfileImageProps";
 import { useSession } from "next-auth/react";
@@ -30,8 +30,10 @@ export default  function NewHaikuForm({buttonText, placeHolder, address, postID}
 
   const handleSubmit = async (e: FormEvent<HTMLElement>) => {
     e.preventDefault();
-    await createNewHaiku(inputValue, address, postID)
+    // await createNewHaiku(inputValue, address, postID)
+    await createNewHaiku2(inputValue, address)
   }
+
   return(
   <form onSubmit={handleSubmit} className="flex flex-col gap-2 border-b px-4 py-2">
     <div className="flex gap-4">

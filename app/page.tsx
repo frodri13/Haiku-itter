@@ -1,4 +1,5 @@
 import HaikuPosts from '@/components/HaikuPosts'
+import NewForm from '@/components/NewForm'
 import NewHaikuForm from '@/components/NewHaikuForm'
 
 export default async function Home() {
@@ -11,6 +12,7 @@ export default async function Home() {
       buttonText='Haiku That Post!'
       placeHolder='What are you thinking?'
       address='content' />
+
 
     <HaikuPosts />
   
