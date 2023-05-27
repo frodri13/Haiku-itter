@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { ProfileImage } from "./ProfileImageProps";
+import NewHaikuForm from "./NewHaikuForm";
 
 export async function GetHaikuPosts(){
     'use server'
@@ -12,6 +13,7 @@ export async function GetHaikuPosts(){
         },
     }
     )
+    
 
     return(
         <div>
@@ -45,8 +47,9 @@ export async function GetHaikuPosts(){
                    }) 
                     }
                 </div>
-                 <div className='px-40'>
-             
+                <div className='px-40'>
+                    {/* @ts-expect-error Async Server Component */}
+                    <NewHaikuForm postID={postID} comment={"true"} />
                  </div>
             </div>
             )
