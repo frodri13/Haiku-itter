@@ -54,9 +54,11 @@ export default async function NewHaikuForm({comment, postID}: NewHaikuFormProps)
   const session = await getServerSession(authOptions);
   const image = session?.user?.image!;
 
-
+  if (!session) {
+     return <p>You must be signed in...</p>
+  }
 
   return(
-    <ClientForm image={image} comment={comment} postID={postID} action={createHaiku} />
+    <ClientForm image={image} comment={comment} postID={postID} action={createHaiku}/>
   )
 }
