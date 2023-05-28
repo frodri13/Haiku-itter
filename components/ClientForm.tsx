@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { SimpleButton } from "./Buttons";
 import { ProfileImage } from "./ProfileImageProps";
 
@@ -16,11 +16,14 @@ function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
     textArea.style.height = `${textArea.scrollHeight}px`
 }
 
-// function isItHaiku(str: string) {
-//     if(str != "string") {
-//         alert("This is a string string")
-//     }
-// }
+function isItHaiku(str: string) {
+    if(str != "string") {
+        alert("This is not a Haiku");
+        return false;
+    } else {
+        return true;
+    }
+}
 
 export default function ClientForm({image, action, postID, comment}: ClientFormProps) {
     const placeHolder = 'What are you thinking?'
@@ -35,10 +38,16 @@ export default function ClientForm({image, action, postID, comment}: ClientFormP
     useLayoutEffect(()=> {
         updateTextAreaSize(textAreaRef.current);
     }, [text])
-
+   
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        isItHaiku(text)
+        if(!isItHaiku(text)) {
+            e.preventDefault()
+        }
+    }
     return(
         <form className="flex flex-col gap-2 border-b px-4 py-2" action={action}
-        onSubmit={() => setText("")}>
+        onSubmit={handleSubmit}>
          <div className="flex gap-4">
         <ProfileImage src={image} />
         <label>
