@@ -25,6 +25,25 @@ function isItHaiku(str: string) {
     }
 }
 
+function isItLongEnough(str: string): boolean{
+    if(countLines(str) != 3) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function countLines(text: string): number {
+    const lines = text.split("\n");
+    const count = lines.length;
+    return count;
+}
+
+function countWords(text: string): number {
+    const words = text.split(" ");
+    const count = words.length
+    return count;
+}
 export default function ClientForm({image, action, postID, comment}: ClientFormProps) {
     const placeHolder = 'What are you thinking?'
     const buttonText = 'Haiku it!'
