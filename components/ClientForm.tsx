@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { SimpleButton } from "./Buttons";
 import { ProfileImage } from "./ProfileImageProps";
 
@@ -8,7 +8,12 @@ type ClientFormProps ={
     comment: string,
     postID: string | undefined,
     action: (formData: FormData) => {}
-  
+}
+
+function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
+    if(textArea == null) return;
+    textArea.style.height = "0";
+    textArea.style.height = `${textArea.scrollHeight}px`
 }
 
 // function isItHaiku(str: string) {
@@ -22,16 +27,27 @@ export default function ClientForm({image, action, postID, comment}: ClientFormP
     const buttonText = 'Haiku it!'
     const [text, setText] = useState("");
     // isItHaiku(text)
+    const textAreaRef = useRef<HTMLTextAreaElement>();
+    const inputRef = useCallback((textArea: HTMLTextAreaElement) => {
+        updateTextAreaSize(textArea);
+        textAreaRef.current = textArea
+    }, [])
+    useLayoutEffect(()=> {
+        updateTextAreaSize(textAreaRef.current);
+    }, [text])
 
     return(
-        <form className="flex flex-col gap-2 border-b px-4 py-2" action={action}>
+        <form className="flex flex-col gap-2 border-b px-4 py-2" action={action}
+        onSubmit={() => setText("")}>
          <div className="flex gap-4">
         <ProfileImage src={image} />
         <label>
              <textarea
+                ref={inputRef}
                 style={{height: 0}}
                 value={text}
                 name="body"  
+                onChange={(e)=> setText(e.target.value)}
                 placeholder={placeHolder}
                 className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none" />
              <input type="hidden" name="postID" value={postID}/>
