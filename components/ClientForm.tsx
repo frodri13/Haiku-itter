@@ -17,21 +17,28 @@ function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
 }
 
 function isItHaiku(str: string) {
-    if(str != "string") {
-        alert("This is not a Haiku");
+    const lines = countLines(str);
+
+    if(!enoughLines(str)) {
+        alert(`This is not a Lune Haiku.\n
+        It only has ${lines} lines when it should have 3!`);
         return false;
     } else {
         return true;
     }
 }
 
-function isItLongEnough(str: string): boolean{
+function enoughLines(str: string): boolean{
     if(countLines(str) != 3) {
         return false;
     } else {
         return true;
     }
 }
+
+// function enoughWords(str: string): boolean {
+//     if(countWords(str) )
+// }
 
 function countLines(text: string): number {
     const lines = text.split("\n");
@@ -59,9 +66,11 @@ export default function ClientForm({image, action, postID, comment}: ClientFormP
     }, [text])
    
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        isItHaiku(text)
+        // isItHaiku(text)
         if(!isItHaiku(text)) {
             e.preventDefault()
+        } else {
+            setText("")
         }
     }
     return(
