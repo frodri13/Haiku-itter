@@ -58,21 +58,5 @@ export default async function NewHaikuForm({comment, postID}: NewHaikuFormProps)
 
   return(
     <ClientForm image={image} comment={comment} postID={postID} action={createHaiku} />
-  //   <form className="flex flex-col gap-2 border-b px-4 py-2" action={createHaiku}>
-  //   <div className="flex gap-4">
-  //     <ProfileImage src={session?.user?.image} />
-  //     <label>
-  //       <textarea
-  //       style={{height: 0}}
-  //       name="body"  
-  //       placeholder={placeHolder}
-  //       className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none" />
-  //       <input type="hidden" name="postID" value={postID}/>
-  //       <input type="hidden" name="comment" value={comment}/>
-
-  //     </label>
-  //   </div>
-  // <SimpleButton className="self-end">{buttonText}</SimpleButton>
-  // </form>
   )
 }

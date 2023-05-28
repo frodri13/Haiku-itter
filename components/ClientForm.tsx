@@ -18,27 +18,26 @@ function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
 
 function isItHaiku(str: string) {
     const lines = countLines(str);
-
-    if(!enoughLines(str)) {
+    
+    if(lines != 3) {
         alert(`This is not a Lune Haiku.\n
         It only has ${lines} lines when it should have 3!`);
         return false;
-    } else {
-        return true;
+    } else{
+        const [line1, line2, line3] = str.split("\n")
+
+        if(countWords(line1) == 3 && countWords(line2) == 5 && countWords(line3) == 3) {
+            
+            return true;
+        } else {
+            alert(`This is not a Lune Haiku.\n
+            The first line should have 3 words, while yours has ${countWords(line1)}\n
+            The second line should have 5 words, while yours has ${countWords(line2)}\n
+            The third line should have 3 words, while yours has ${countWords(line3)}.`)
+            return false
+        }  
     }
 }
-
-function enoughLines(str: string): boolean{
-    if(countLines(str) != 3) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-// function enoughWords(str: string): boolean {
-//     if(countWords(str) )
-// }
 
 function countLines(text: string): number {
     const lines = text.split("\n");
@@ -66,7 +65,7 @@ export default function ClientForm({image, action, postID, comment}: ClientFormP
     }, [text])
    
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        // isItHaiku(text)
+
         if(!isItHaiku(text)) {
             e.preventDefault()
         } else {
