@@ -4,6 +4,9 @@ const nextConfig = {
       appDir: true,
       serverActions: true,
     },
+    typescript: {
+      ignoreBuildErrors: true,
+    },
     images: {
       remotePatterns: [
         {

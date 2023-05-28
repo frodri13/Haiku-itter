@@ -1,32 +1,32 @@
-import { prisma } from '@/lib/prisma'
-import { ProfileImage } from './ProfileImageProps';
-import { useState } from 'react';
-import NewHaikuForm from './NewHaikuForm';
-import { getAllHaikus } from '@/lib/api';
+import { prisma } from "@/lib/prisma"
+import { ProfileImage } from "./ProfileImageProps";
+import NewHaikuForm from "./NewHaikuForm";
 
-export default async function HaikuPosts() {
-    const posts = await prisma.post.findMany(
-        {include: {
-            comments: true, // Include the comments related to each post
-          },
-          orderBy: {
+export async function GetHaikuPosts(){
+    'use server'
+    const posts = await prisma.post.findMany({
+        include: {
+            comments: true
+        },
+        orderBy: {
             createdAt: 'desc'
-          }
-        }
-    );
+        },
+    }
+    )
+    
 
     return(
         <div>
-            {posts.map((post: any ) => {
+        {posts.map((post: any ) => {
             const content = JSON.parse(post.body);
             const src = post.userImage;
             const postID = post.id;
-           console.log(JSON.parse(post.body).content)
+             console.log(content)
 
             return(
-            <div key={post.id}>
-                <div className='flex px-10 flex-col'>
-                    <div className='flex space-x-10 py-5'>
+            <div key={postID}>
+                <div className='flex px-10 flex-col' >
+                    <div className='flex space-x-10 py-5' >
                          <ProfileImage src={src}/>
                          <p className='whitespace-pre-wrap'>{content}</p>
 
@@ -47,17 +47,14 @@ export default async function HaikuPosts() {
                    }) 
                     }
                 </div>
-                 <div className='px-40'>
-                    <NewHaikuForm 
-                    buttonText='Haiku it?'
-                    placeHolder='Anything to add?'
-                    address='comments'
-                    postID={postID} />
+                <div className='px-40'>
+                    {/* @ts-expect-error Async Server Component */}
+                    <NewHaikuForm postID={postID} comment={"true"} />
                  </div>
-             
             </div>
             )
           })}
+
         </div>
     )
 }

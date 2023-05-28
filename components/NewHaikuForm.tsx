@@ -1,53 +1,64 @@
-'use client'
-import { FormEvent, useLayoutEffect, useState, useRef, useCallback } from "react";
-import { createNewHaiku, createNewHaiku2 } from "@/lib/api";
-import { SimpleButton } from "./Buttons";
-import { ProfileImage } from "./ProfileImageProps";
-import { useSession } from "next-auth/react";
-import { updateTextAreaSize } from "@/lib/functionHelpers";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { revalidatePath, revalidateTag } from "next/cache";
+import ClientForm from "./ClientForm";
+
+
+
+async function createHaiku(formData: FormData) {
+  'use server'
+  const session = await getServerSession(authOptions);
+  const currentUserEmail = session?.user?.email!;
+  const user = await prisma.user
+   .findUnique({where: {email: currentUserEmail}, select: { id: true } })
+
+  const userImage = session?.user?.image;
+  console.log(formData)
+
+  const postID = formData.get("postID") as string;
+
+  const commentTrue = formData.get("comment") as string | null;
+
+ const body = formData.get("body");
+
+  if(commentTrue !== "true") {
+    await prisma.post.create({
+      data: {
+           body: JSON.stringify(formData.get("body")),
+           owner: {connect: {id: user?.id}},
+           userImage: userImage,
+        }
+     })
+     revalidatePath('/')
+  } else if(commentTrue === "true"){
+
+     await prisma.comment.create({
+      data: {
+        body: JSON.stringify(formData.get("body")),
+        owner: {connect: {id: user?.id}},
+        userImage: userImage,
+        post: { connect: { id: postID } },
+      }
+    })
+    revalidatePath('/')
+  }
+  } 
 
 type NewHaikuFormProps = {
-  buttonText: string,
-  placeHolder: string,
-  address: string,
-  postID?: string,
+  comment: string, 
+  postID?: string
 }
+ 
+export default async function NewHaikuForm({comment, postID}: NewHaikuFormProps){
+  const session = await getServerSession(authOptions);
+  const image = session?.user?.image!;
 
-export default  function NewHaikuForm({buttonText, placeHolder, address, postID}: NewHaikuFormProps) {
-  const {data: session, status } = useSession();
-  const [inputValue, setInputValue] = useState("");
-  const textAreaRef = useRef<HTMLTextAreaElement>();
-  const inputRef = useCallback((textArea: HTMLTextAreaElement) => {
-    updateTextAreaSize(textArea);
-    textAreaRef.current = textArea;
-  }, [])
-
-  useLayoutEffect(() => {
-    updateTextAreaSize(textAreaRef.current);
-  }, [inputValue]);
-
-  if(status !== 'authenticated') return;
-
-  const handleSubmit = async (e: FormEvent<HTMLElement>) => {
-    e.preventDefault();
-    // await createNewHaiku(inputValue, address, postID)
-    await createNewHaiku2(inputValue, address)
+  if (!session) {
+     return <p>You must be signed in...</p>
   }
 
   return(
-  <form onSubmit={handleSubmit} className="flex flex-col gap-2 border-b px-4 py-2">
-    <div className="flex gap-4">
-      <ProfileImage src={session?.user?.image} />
-      <label>
-        <textarea
-        ref={inputRef}
-        style={{height: 0}}
-        value={inputValue}
-        placeholder={placeHolder}
-        onChange={(e) => setInputValue(e.target.value)}
-        className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none" />
-      </label>
-    </div>
-  <SimpleButton className="self-end">{buttonText}</SimpleButton>
-  </form>)
+    <ClientForm image={image} comment={comment} postID={postID} action={createHaiku}/>
+  )
 }
