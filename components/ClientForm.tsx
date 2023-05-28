@@ -51,7 +51,7 @@ function countWords(text: string): number {
     return count;
 }
 export default function ClientForm({image, action, postID, comment}: ClientFormProps) {
-    const placeHolder = 'What are you thinking?'
+    const placeHolder = 'Haiku your thoughts away...'
     const buttonText = 'Haiku it!'
     const [text, setText] = useState("");
     // isItHaiku(text)
